@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+
+  db:
+    image: postgres
+    env_file:
+      - .env.db
+    ports:
+      - "5432:5432"
+
+  catalogo:
+    build: catalogo
+    depends_on:
+      - db
+    image: catalogo:latest
+    working_dir: /local/app
+    env_file:
+      - .env.catalogo
+    volumes:
+      - ./catalogo/app:/local/app
+    ports:
+      - "5000:5000"

@@ -7,7 +7,7 @@ def get_db():
         g.db = psycopg2.connect(
             user="dbuser",
             password="secreto",
-            host="host.docker.internal",
+            host="db",
             port="5432",
             database="db"
         )

@@ -13,4 +13,3 @@ CREATE TABLE productos (
 INSERT INTO productos (price, title, long_description) VALUES
     (12.4, 'Ejemplo 1', 'Producto ejemplar 1'),
     (34.43, 'Ejemplo 2', 'Producto ejemplar 2');
-
