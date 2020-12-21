@@ -1,6 +1,7 @@
 from flask import jsonify, request, Flask
 from catalog import get_products, create_product, get_product
 from flask_cors import CORS
+import os
 import redis
 
 
