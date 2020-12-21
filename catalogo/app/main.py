@@ -1,8 +1,26 @@
+import os
+
 from flask import jsonify, request, Flask
 from catalog import get_products, create_product, get_product
 import redis
 
 app = Flask(__name__)
+redis_client = redis.Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=0, decode_responses=True)
+
+
+@app.route('/product/<sku>', methods=['GET', ])
+def get_product_by_sku(sku):
+	product = redis_client.hgetall(sku)
+	if not product:
+		product = get_product(sku)
+		product['cache'] = 'miss'
+		redis_client.hmset(product['sku'], product)
+	else:
+		pass
+		product['cache'] = 'hit'
+
+	return jsonify(product)
+
 
 @app.route('/product', methods=['GET', 'POST'])
 def list_all_products():
