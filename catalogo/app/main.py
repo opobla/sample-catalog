@@ -1,5 +1,6 @@
 from flask import jsonify, request, Flask
-from catalog import get_products, create_product
+from catalog import get_products, create_product, get_product
+import redis
 
 app = Flask(__name__)
 
@@ -14,11 +15,11 @@ def list_all_products():
 	if request.method == 'POST':
 		data = request.get_json()
 		create_product(
-			data['sku'],
+			None,
 			data['title'],
 			data['long_description'],
 			data['price_euro'])
-		return jsonify({ "status": "ok"})
+		return jsonify({"status": "ok"})
 
 
 @app.route('/hello')
@@ -30,10 +31,12 @@ def hello_world():
 	}
 	return jsonify(response)
 
+
 @app.route('/bye')
 def bye_world():
 	return ("Adios mundo cruel")
 
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+	app.run(debug=True, host='0.0.0.0')
 
