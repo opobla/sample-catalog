@@ -1,10 +1,12 @@
-import os
-
 from flask import jsonify, request, Flask
 from catalog import get_products, create_product, get_product
+from flask_cors import CORS
 import redis
 
+
 app = Flask(__name__)
+CORS(app)
+
 redis_client = redis.Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'), db=0, decode_responses=True)
 
 
@@ -32,12 +34,12 @@ def list_all_products():
 	
 	if request.method == 'POST':
 		data = request.get_json()
-		create_product(
+		new_sku = create_product(
 			None,
 			data['title'],
 			data['long_description'],
 			data['price_euro'])
-		return jsonify({"status": "ok"})
+		return jsonify({"status": "ok", "sku": new_sku})
 
 
 @app.route('/hello')
