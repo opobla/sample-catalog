@@ -24,6 +24,11 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - DB_USERNAME=dbuser
+      - DB_PASSWORD=secreto
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=db 
     env_file:
       - .env.catalogo
     volumes:
