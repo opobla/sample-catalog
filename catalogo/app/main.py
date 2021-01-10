@@ -1,4 +1,4 @@
-from flask import jsonify, request, Flask
+from flask import jsonify, request, Flask, make_response
 from catalog import get_products, create_product, get_product
 from flask_cors import CORS
 import os
@@ -17,14 +17,18 @@ redis_client = redis.Redis(
 
 @app.route('/product/<sku>', methods=['GET', ])
 def get_product_by_sku(sku):
-	product = redis_client.hgetall(sku)
-	if not product:
-		product = get_product(sku)
-		product['cache'] = 'miss'
-		redis_client.hmset(product['sku'], product)
-	else:
-		pass
-		product['cache'] = 'hit'
+    product = redis_client.hgetall(sku)
+    if not product:
+        product = get_product(sku)
+        if not product:
+            return make_response(jsonify({
+                "error": f"SKU {sku} not found!"
+            }), 404)
+        product['cache'] = 'miss'
+        redis_client.hmset(product['sku'], product)
+    else:
+        pass
+        product['cache'] = 'hit'
 
     return jsonify(product)
 
