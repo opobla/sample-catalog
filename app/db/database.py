@@ -4,7 +4,7 @@ import os
 
 def get_db():
 
-	db_user = os.environ['DB_USERNAME']
+    db_user = os.environ['DB_USERNAME']
     db_password = os.environ['DB_PASSWORD']
     db_name = os.environ['DB_NAME']
     db_connection_name = os.environ['CLOUD_SQL_CONNECTION_NAME']
