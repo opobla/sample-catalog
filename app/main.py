@@ -1,7 +1,9 @@
 from flask import jsonify, request, Flask
 from catalog import get_products, create_product
+import os
 
 app = Flask(__name__)
+port = os.environ["PORT"]
 
 @app.route('/product', methods=['GET', 'POST'])
 def list_all_products():
@@ -35,5 +37,5 @@ def bye_world():
 	return ("Adios mundo cruel")
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=PORT)
 
